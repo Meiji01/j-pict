@@ -8,15 +8,246 @@ The PICT (Pairwise Independent Combinatorial Testing) API provides a programmati
 
 ## Table of Contents
 
-1. [Data Types](#data-types)
-2. [Return Codes](#return-codes)
-3. [Constants](#constants)
-4. [Task Management](#task-management)
-5. [Model Management](#model-management)
-6. [Parameter Management](#parameter-management)
-7. [Constraint Management](#constraint-management)
-8. [Generation and Results](#generation-and-results)
-9. [Complete Usage Example](#complete-usage-example)
+1. [Building and Linking](#building-and-linking)
+2. [Data Types](#data-types)
+3. [Return Codes](#return-codes)
+4. [Constants](#constants)
+5. [Task Management](#task-management)
+6. [Model Management](#model-management)
+7. [Parameter Management](#parameter-management)
+8. [Constraint Management](#constraint-management)
+9. [Generation and Results](#generation-and-results)
+10. [Complete Usage Example](#complete-usage-example)
+
+---
+
+## Building and Linking
+
+### Library Configuration
+
+The PICT API is configured by default as a **static library** (.lib) rather than a dynamic library (.dll).
+
+#### Why Static Library?
+
+The static library approach offers several advantages:
+
+1. **Simplified Deployment**
+   - No separate DLL files to distribute
+   - No DLL versioning conflicts
+   - Single executable file deployment
+
+2. **Performance**
+   - No function call indirection overhead
+   - Better compiler optimization opportunities
+   - Smaller memory footprint (no DLL loading)
+
+3. **Cross-Platform Compatibility**
+   - Static libraries work consistently across Windows, Linux, and macOS
+   - No platform-specific DLL/SO loading issues
+
+4. **Easier Distribution**
+   - Users only need the .lib file and header at compile time
+   - No runtime DLL dependencies
+
+#### Building as a Static Library (Default)
+
+**Windows (Visual Studio):**
+```bash
+# Build the solution - produces pict.lib
+msbuild pict.sln /p:Configuration=Release
+
+# Output: Debug\api\pict.lib or Release\api\pict.lib
+```
+
+**Cross-Platform (CMake):**
+```bash
+cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
+cmake --build build
+
+# Output: build/api/libpictapi.a (Linux/macOS) or pict.lib (Windows)
+```
+
+**Linux/macOS (Make):**
+```bash
+make
+# Output: libpictapi.a
+```
+
+#### Using the Static Library
+
+**Linking in Your Project:**
+
+```cpp
+// Include the header
+#include "pictapi.h"
+
+// Compile and link
+// Windows (Visual Studio)
+cl /EHsc your_program.cpp /I path\to\api pict.lib
+
+// Windows (CMake)
+target_link_libraries(your_program pict)
+
+// Linux/macOS
+g++ -std=c++17 your_program.cpp -I./api -L./build/api -lpictapi -o your_program
+```
+
+---
+
+### Building as a DLL (Optional)
+
+If you need dynamic linking (e.g., for plugin systems or multiple language bindings), you can build the API as a DLL.
+
+#### Why You Might Want a DLL:
+
+- Loading the library at runtime
+- Multiple applications sharing the same library instance
+- Updating the library without recompiling applications
+- Language interop (C#, Python, etc.)
+
+#### Converting to DLL Build
+
+**Method 1: Modify Visual Studio Project**
+
+Edit [api/pictapi.vcxproj](api/pictapi.vcxproj):
+
+```xml
+<!-- Change this line -->
+<ConfigurationType>StaticLibrary</ConfigurationType>
+
+<!-- To this -->
+<ConfigurationType>DynamicLibrary</ConfigurationType>
+```
+
+Then add the module definition file to the project:
+
+```xml
+<ItemGroup>
+  <None Include="pict.def" />
+</ItemGroup>
+
+<ItemDefinitionGroup>
+  <Link>
+    <ModuleDefinitionFile>pict.def</ModuleDefinitionFile>
+  </Link>
+</ItemDefinitionGroup>
+```
+
+**Method 2: CMake DLL Build**
+
+Modify [api/CMakeLists.txt](api/CMakeLists.txt):
+
+```cmake
+# Change from:
+add_library(pictapi STATIC ...)
+
+# To:
+add_library(pictapi SHARED ...)
+```
+
+**Build the DLL:**
+```bash
+msbuild pict.sln /p:Configuration=Release
+# Output: Release\api\pict.dll and pict.lib (import library)
+```
+
+#### Export Definition File
+
+The API already includes [api/pict.def](api/pict.def) with all exported functions:
+
+```plaintext
+LIBRARY    pict
+EXPORTS
+    PictCreateTask
+    PictAddExclusion
+    PictAddSeed
+    PictGenerate
+    PictAttachChildModel
+    PictAllocateResultBuffer
+    PictFreeResultBuffer
+    PictResetResultFetching
+    PictGetNextResultRow
+    PictSetRootModel
+    PictGetTotalParameterCount
+    PictDeleteTask
+    PictCreateModel
+    PictAddParameter
+    PictDeleteModel
+```
+
+All API functions are ready for DLL export.
+
+---
+
+### Using the DLL
+
+**Linking Against the DLL:**
+
+```cpp
+// Same header include
+#include "pictapi.h"
+
+// Compile with import library
+// Windows
+cl /EHsc your_program.cpp /I path\to\api pict.lib
+// Note: You need both pict.dll (runtime) and pict.lib (import library)
+
+// Deploy pict.dll alongside your executable
+```
+
+**Runtime Loading (Advanced):**
+
+```cpp
+#include <windows.h>
+
+// Load the DLL at runtime
+HMODULE hPict = LoadLibrary(L"pict.dll");
+if (!hPict) {
+    std::cerr << "Failed to load pict.dll" << std::endl;
+    return;
+}
+
+// Get function pointers
+typedef PICT_HANDLE (*PictCreateTaskFunc)();
+PictCreateTaskFunc PictCreateTask = 
+    (PictCreateTaskFunc)GetProcAddress(hPict, "PictCreateTask");
+
+// Use the function
+PICT_HANDLE task = PictCreateTask();
+
+// Cleanup
+FreeLibrary(hPict);
+```
+
+---
+
+### CLI DLL vs API DLL
+
+**Important:** The repository includes a `clidll/` project, but this is different from an API DLL:
+
+| Project | Type | Purpose | Exports |
+|---------|------|---------|---------|
+| **api/** | Static Lib (default) | Core combinatorial engine | 15 API functions |
+| **clidll/** | DLL | Command-line wrapper | `execute()` function only |
+| **cli/** | Executable | Command-line tool | N/A (pict.exe) |
+
+The **clidll** provides a DLL wrapper around the command-line interface for invoking PICT as `execute(argc, argv)`, not for programmatic API access.
+
+---
+
+### Recommendation
+
+**Use the static library** unless you have a specific requirement for dynamic linking. The static library:
+- Is the default and well-tested configuration
+- Simplifies deployment and distribution
+- Works consistently across all platforms
+- Has better performance characteristics
+
+**Use a DLL** if you need:
+- Runtime library loading
+- Multiple applications sharing one library
+- Hot-swapping/updates without recompilation
+- Interop with non-C++ languages (C#, Python via ctypes/cffi)
 
 ---
 
