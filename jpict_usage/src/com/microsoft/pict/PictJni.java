@@ -2,7 +2,7 @@ package com.microsoft.pict;
 
 /**
  * Java Native Interface wrapper for PICT (Pairwise Independent Combinatorial Testing) API.
- * j
+ * 
  * This class provides Java bindings for the PICT C++ library, enabling combinatorial
  * test case generation from Java applications.
  * 
