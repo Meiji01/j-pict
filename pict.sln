@@ -25,6 +25,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pictclidll-usage", "clidll-
 		{33FA938D-1E7C-4001-A3B6-69773B6B9C9B} = {33FA938D-1E7C-4001-A3B6-69773B6B9C9B}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pictjni", "jniwrapper\pictjni.vcxproj", "{8E9B8A47-C3D8-4F15-B31D-7C6E8B9D8E12}"
+	ProjectSection(ProjectDependencies) = postProject
+		{348F928A-B4A7-41FC-A312-76559047BDAF} = {348F928A-B4A7-41FC-A312-76559047BDAF}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -73,6 +78,14 @@ Global
 		{ACD9DAC9-D3F3-42B6-B553-4F7BF7BB81A5}.Release|x64.Build.0 = Release|Win32
 		{ACD9DAC9-D3F3-42B6-B553-4F7BF7BB81A5}.Release|x86.ActiveCfg = Release|Win32
 		{ACD9DAC9-D3F3-42B6-B553-4F7BF7BB81A5}.Release|x86.Build.0 = Release|Win32
+		{8E9B8A47-C3D8-4F15-B31D-7C6E8B9D8E12}.Debug|x64.ActiveCfg = Debug|Win32
+		{8E9B8A47-C3D8-4F15-B31D-7C6E8B9D8E12}.Debug|x64.Build.0 = Debug|Win32
+		{8E9B8A47-C3D8-4F15-B31D-7C6E8B9D8E12}.Debug|x86.ActiveCfg = Debug|Win32
+		{8E9B8A47-C3D8-4F15-B31D-7C6E8B9D8E12}.Debug|x86.Build.0 = Debug|Win32
+		{8E9B8A47-C3D8-4F15-B31D-7C6E8B9D8E12}.Release|x64.ActiveCfg = Release|Win32
+		{8E9B8A47-C3D8-4F15-B31D-7C6E8B9D8E12}.Release|x64.Build.0 = Release|Win32
+		{8E9B8A47-C3D8-4F15-B31D-7C6E8B9D8E12}.Release|x86.ActiveCfg = Release|Win32
+		{8E9B8A47-C3D8-4F15-B31D-7C6E8B9D8E12}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

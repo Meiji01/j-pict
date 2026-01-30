@@ -1,0 +1,17 @@
+LIBRARY pictjni
+EXPORTS
+    Java_com_microsoft_pict_PictJni_createTask
+    Java_com_microsoft_pict_PictJni_deleteTask
+    Java_com_microsoft_pict_PictJni_createModel
+    Java_com_microsoft_pict_PictJni_deleteModel
+    Java_com_microsoft_pict_PictJni_setRootModel
+    Java_com_microsoft_pict_PictJni_addParameter
+    Java_com_microsoft_pict_PictJni_attachChildModel
+    Java_com_microsoft_pict_PictJni_addExclusion
+    Java_com_microsoft_pict_PictJni_addSeed
+    Java_com_microsoft_pict_PictJni_generate
+    Java_com_microsoft_pict_PictJni_allocateResultBuffer
+    Java_com_microsoft_pict_PictJni_freeResultBuffer
+    Java_com_microsoft_pict_PictJni_resetResultFetching
+    Java_com_microsoft_pict_PictJni_getNextResultRow
+    Java_com_microsoft_pict_PictJni_getTotalParameterCount
