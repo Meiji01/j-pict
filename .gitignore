@@ -61,7 +61,7 @@ install_manifest.txt
 /test/dbg.log*
 
 ## Binaries
-pict
+/j-pict-base/pict
 pict.exe
 pict.lib
 pict.dll
