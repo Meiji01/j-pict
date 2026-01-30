@@ -1,0 +1,16 @@
+﻿  ccommon.cpp
+  cmdline.cpp
+  common.cpp
+  cparser.cpp
+  gcdexcl.cpp
+  ctokenizer.cpp
+  gcd.cpp
+  gcdmodel.cpp
+  mparser.cpp
+  model.cpp
+  pict.cpp
+  strings.cpp
+  Generating Code...
+  pictcli.vcxproj -> C:\Users\MeijSandbox\source\repos\j-pict\Debug\cli\pict.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
