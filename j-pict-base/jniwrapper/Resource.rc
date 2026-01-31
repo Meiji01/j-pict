@@ -66,13 +66,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "Microsoft Corporation"
-            VALUE "FileDescription", "PICT JNI Wrapper"
+            VALUE "CompanyName", "MeijSoft"
+            VALUE "FileDescription", "j-pict"
             VALUE "FileVersion", "3.7.4.0"
             VALUE "InternalName", "pictjni.dll"
             VALUE "LegalCopyright", "Copyright (C) Microsoft Corporation. All rights reserved."
             VALUE "OriginalFilename", "pictjni.dll"
-            VALUE "ProductName", "Pairwise Independent Combinatorial Testing"
+            VALUE "ProductName", "Java-Pairwise Independent Combinatorial Testing"
             VALUE "ProductVersion", "3.7.4.0"
         END
     END

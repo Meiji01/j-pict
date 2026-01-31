@@ -67,8 +67,8 @@ BLOCK "StringFileInfo"
 BEGIN
 BLOCK "040904b0"
 BEGIN
-VALUE "CompanyName", "Microsoft Corporation\0"
-VALUE "FileDescription", "PICT Executable as a Library"
+VALUE "CompanyName", "MeijSoft\0"
+VALUE "FileDescription", "j-pict"
 VALUE "FileVersion", VER_FILEVERSION_STR
 VALUE "InternalName", "pict.dll"
 VALUE "LegalCopyright", VER_LEGALCOPYRIGHT_STR

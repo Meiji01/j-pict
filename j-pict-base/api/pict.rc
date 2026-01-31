@@ -53,7 +53,7 @@ END
 // Version
 //
 // Local file description
-#define VER_FILEDESC_STR          "PICT API Library"
+#define VER_FILEDESC_STR          "j-pict"
 #define VER_INTERNAL_NAME_STR     "pict.dll"
 #define VER_ORIGINAL_FILENAME_STR "pict.dll"
 
