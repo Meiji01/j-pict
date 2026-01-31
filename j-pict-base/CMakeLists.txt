@@ -89,6 +89,7 @@ target_compile_definitions(${PICT_BUILD_OPTIONS}
 add_subdirectory (api)
 add_subdirectory (cli)
 add_subdirectory (clidll)
+add_subdirectory (jniwrapper)
 
 if(PICT_RUN_TESTS_ENABLED)
   enable_testing()
