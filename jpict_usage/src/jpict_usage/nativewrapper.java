@@ -11,10 +11,19 @@ public class nativewrapper {
 	        long task = pict.createTask();
 	        long model = pict.createModel(PictJni.PICT_DEFAULT_RANDOM_SEED);
 	        
-	        // Add 3 parameters with 2, 3, and 4 values respectively
-	        long param1 = pict.addParameter(model, 2, PictJni.PICT_PAIRWISE_GENERATION, null);
-	        long param2 = pict.addParameter(model, 3, PictJni.PICT_PAIRWISE_GENERATION, null);
-	        long param3 = pict.addParameter(model, 4, PictJni.PICT_PAIRWISE_GENERATION, null);
+	        String[] parameterLabels = new String[] { "Parameter1", "Parameter2", "Parameter3" };
+	        String[][] paramValues = {
+	        		{ "test1", "test2", "test3" }, // Parameter 1 with 3 values
+	        		{ "comb1", "comb2" },          // Parameter 2 with 2 values
+	        		{ "100", "300", "500" }        // Parameter 3 with 3 values
+	        }; //paramValues should be 2 dimentional array, element 1 is parameter, element 2 is value labels
+
+	        // Add parameters with their labels
+	        //dynamic add parameters based on paramValues array
+	        
+	        for (int i = 0; i < paramValues.length; i++) {
+	            pict.addParameter(model, paramValues[i].length, PictJni.PICT_PAIRWISE_GENERATION, null);
+	        }
 	        
 	        // Set root model and generate
 	        pict.setRootModel(task, model);
@@ -32,10 +41,18 @@ public class nativewrapper {
 	            int rowNum = 0;
 	            
 	            while (pict.getNextResultRow(task, resultBuffer, row) > 0) {
+	            	
 	                System.out.print("Row " + (++rowNum) + ": ");
+	                                
+	                //printing of row combination with value labels
 	                for (int i = 0; i < paramCount; i++) {
-	                    System.out.print(row[i]);
-	                    if (i < paramCount - 1) System.out.print(", ");
+	                    //System.out.print("xrow"+ row[i]);
+	                	System.out.print(paramValues[i][(int)row[i]]);
+	                    
+	                    if (i < paramCount - 1) {
+	                    	System.out.print(", ");
+	                    }
+	                    
 	                }
 	                System.out.println();
 	            }
